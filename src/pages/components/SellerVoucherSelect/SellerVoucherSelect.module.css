@@ -1,0 +1,69 @@
+.card {
+  width: 100%;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-right: 16px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 66px;
+}
+
+.iconWrap {
+  width: 66px;
+  height: 66px;
+  padding: 12px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.label {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #637381;
+  white-space: nowrap;
+}
+
+.labelApplied {
+  color: #ff5630;
+}
+
+.selectBtn {
+  padding: 8px 11px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #696cff;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.selectBtn:hover {
+  background: rgba(105, 108, 255, 0.08);
+}

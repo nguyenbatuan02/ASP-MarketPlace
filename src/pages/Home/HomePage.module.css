@@ -1,0 +1,231 @@
+.page {
+  width: 100%;
+  background: #ffffff;
+  font-family: 'Lexend', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Hero ── */
+.hero {
+  width: 100%;
+  min-height: 520px;
+  padding: 64px 144px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0f0ff 0%, #f9fafb 100%);
+}
+
+.heroInner {
+  width: 100%;
+  max-width: 1152px;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+
+.heroImage {
+  width: 358px;
+  height: 258px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #f0f0ff;
+  /* Replace background with <img> */
+}
+
+/* ── Shared section title ── */
+.sectionTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0px;
+  color: #212b36;
+  margin: 0;
+}
+
+/* ── Category ── */
+.category {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 64px 108px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  background: #ffffff;
+}
+
+.catGrid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.catRow {
+  display: flex;
+  gap: 32px;
+}
+
+.catCard {
+  width: 182px;
+  height: 152px;
+  border-radius: 16px;
+  padding: 24px 1px;
+  border: 1px solid rgba(145, 158, 171, 0.24);
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.catCard:hover {
+  box-shadow:
+    0px 2px 4px -1px #919eab33,
+    0px 4px 5px 0px #919eab24,
+    0px 1px 10px 0px #919eab1f;
+}
+
+.catIconWrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 100px;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.catLabel {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+  text-align: center;
+}
+
+/* ── Brands ── */
+.brands {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 64px 108px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  background: #ffffff;
+}
+
+.brandRow {
+  width: 100%;
+  display: flex;
+  gap: 32px;
+}
+
+.brandCard {
+  flex: 1;
+  border-radius: 16px;
+  padding: 40px;
+  border: 1px solid rgba(145, 158, 171, 0.24);
+  background: #ffffff;
+  box-shadow:
+    0px 2px 4px -1px #919eab33,
+    0px 4px 5px 0px #919eab24,
+    0px 1px 10px 0px #919eab1f;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+.brandInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.brandLogoWrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 100px;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.brandLogoWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.brandTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.brandName {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #212b36;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.brandDesc {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.viewDetailBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 11px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  align-self: center;
+  margin-top: auto
+}
+
+.viewDetailBtn:hover {
+  background: rgba(33, 33, 33, 0.04);
+}
+
+.viewDetailText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #212121;
+}

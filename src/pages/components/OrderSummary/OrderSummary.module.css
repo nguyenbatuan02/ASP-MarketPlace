@@ -1,0 +1,189 @@
+.summaryCard {
+  width: 460px;
+  border-radius: 16px;
+  padding: 40px;
+  background: #ffffff;
+  box-shadow:
+    0px 2px 4px -1px rgba(145, 158, 171, 0.2),
+    0px 4px 5px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 10px 0px rgba(145, 158, 171, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 112px;
+  box-sizing: border-box;
+}
+
+.summaryTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.15%;
+  color: #212b36;
+  margin: 0;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summaryLabel {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.summaryValue {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.paymentTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.paymentMethod {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Radio */
+.radioWrap {
+  width: 42px;
+  height: 42px;
+  padding: 9px;
+  border-radius: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-sizing: border-box;
+}
+
+.radioWrap:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #637381;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.radioSelected {
+  border-color: #696cff;
+}
+
+.radioDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #696cff;
+}
+
+.paymentIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #696cff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paymentMethodText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.summaryDivider {
+  width: 100%;
+  height: 1px;
+  border: none;
+  border-top: 1px dashed rgba(145, 158, 171, 0.24);
+}
+
+.amountRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.amountLabel {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.amountValue {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.paymentNote {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+}
+
+.orderBtn {
+  width: 100%;
+  height: 42px;
+  padding: 8px 22px;
+  border-radius: 8px;
+  border: none;
+  background: #696cff;
+  box-shadow:
+    0px 3px 1px -2px rgba(145, 158, 171, 0.2),
+    0px 2px 2px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 5px 0px rgba(145, 158, 171, 0.12);
+  cursor: pointer;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #ffffff;
+  transition: opacity 0.2s;
+}
+
+.orderBtn:hover {
+  opacity: 0.9;
+}

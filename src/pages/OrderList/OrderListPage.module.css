@@ -1,0 +1,116 @@
+.page {
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: 'Lexend', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Container ── */
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 108px 0;
+  box-sizing: border-box;
+  background: #ffffff;
+  flex: 1;
+}
+
+.inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Title ── */
+.titleRow {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: -0.25px;
+  color: #212b36;
+}
+
+/* ── Content box ── */
+.contentBox {
+  width: 100%;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ── Tab bar ── */
+.tabBar {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 16px;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  min-height: 42px;
+}
+
+.tabText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  color: #637381;
+  white-space: nowrap;
+}
+
+.tabTextActive {
+  color: #696cff;
+}
+
+.tabLine {
+  width: 100%;
+  height: 0;
+  border-bottom: 2px solid #696cff;
+  margin-top: auto;
+}
+
+/* ── Order list ── */
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Override OrderCard width to fit container */
+.orderWrap > * {
+  width: 100% !important;
+}
+
+.empty {
+  font-family: 'Lexend', sans-serif;
+  font-size: 16px;
+  color: #637381;
+  text-align: center;
+  padding: 40px 0;
+}

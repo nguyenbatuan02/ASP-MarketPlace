@@ -1,0 +1,104 @@
+import { callKw } from '../api/odoo';
+
+export interface OdooProduct {
+  id: number;
+  name: string;
+  description: string | false;
+  description_sale: string | false;
+  list_price: number;           // giá bán
+  standard_price: number;       // giá vốn
+  categ_id: [number, string];
+  image_1920: string | false;   // base64
+  qty_available: number;        // tồn kho
+  type: 'consu' | 'service' | 'product';
+  website_published: boolean;
+  slug: string | false;
+  currency_id: [number, string];
+  taxes_id: number[];
+}
+
+export interface ProductVariant {
+  id: number;
+  name: string;
+  product_tmpl_id: [number, string];
+  combination_indices: string;
+  lst_price: number;
+  image_variant_1920: string | false;
+  attribute_value_ids: number[];
+}
+
+export interface ProductCategory {
+  id: number;
+  name: string;
+  parent_id: [number, string] | false;
+}
+
+const PRODUCT_FIELDS = [
+  'id', 'name', 'description_sale', 'list_price', 'categ_id',
+  'image_1920', 'qty_available', 'type', 'website_published',
+  'currency_id', 'taxes_id', 'standard_price',
+];
+
+export const productService = {
+  // Lấy danh sách sản phẩm (có filter, search, phân trang)
+  async getProducts(opts: {
+    search?: string;
+    categoryId?: number;
+    limit?: number;
+    offset?: number;
+    onlyPublished?: boolean;
+  } = {}): Promise<OdooProduct[]> {
+    const { search, categoryId, limit = 20, offset = 0, onlyPublished = true } = opts;
+
+    const domain: unknown[] = [];
+    if (onlyPublished) domain.push(['website_published', '=', true]);
+    if (categoryId) domain.push(['categ_id', '=', categoryId]);
+    if (search) domain.push(['name', 'ilike', search]);
+
+    return callKw<OdooProduct[]>('product.template', 'search_read', [domain], {
+      fields: PRODUCT_FIELDS,
+      limit,
+      offset,
+      order: 'name asc',
+    });
+  },
+
+  // Lấy chi tiết 1 sản phẩm theo id
+  async getProductById(id: number): Promise<OdooProduct> {
+    const results = await callKw<OdooProduct[]>('product.template', 'search_read', [
+      [['id', '=', id]],
+    ], { fields: [...PRODUCT_FIELDS, 'description'] });
+
+    if (!results.length) throw new Error('Không tìm thấy sản phẩm');
+    return results[0];
+  },
+
+  // Đếm tổng số sản phẩm (cho phân trang)
+  async countProducts(opts: { search?: string; categoryId?: number } = {}): Promise<number> {
+    const { search, categoryId } = opts;
+    const domain: unknown[] = [['website_published', '=', true]];
+    if (categoryId) domain.push(['categ_id', '=', categoryId]);
+    if (search) domain.push(['name', 'ilike', search]);
+
+    return callKw<number>('product.template', 'search_count', [domain]);
+  },
+
+  // Lấy danh mục sản phẩm
+  async getCategories(): Promise<ProductCategory[]> {
+    return callKw<ProductCategory[]>('product.category', 'search_read', [[]], {
+      fields: ['id', 'name', 'parent_id'],
+      order: 'name asc',
+    });
+  },
+
+  // Lấy sản phẩm nổi bật (Home page) - lấy 8 sản phẩm mới nhất
+  async getFeaturedProducts(limit = 8): Promise<OdooProduct[]> {
+    return callKw<OdooProduct[]>('product.template', 'search_read', [
+      [['website_published', '=', true]],
+    ], {
+      fields: PRODUCT_FIELDS,
+      limit,
+      order: 'id desc',
+    });
+  },
+};

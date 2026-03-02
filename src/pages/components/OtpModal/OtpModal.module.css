@@ -1,0 +1,191 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  width: 444px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0px 11px 15px -7px #919eab33,
+    0px 24px 38px 3px #919eab24,
+    0px 9px 46px 8px #919eab1f;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.header {
+  width: 100%;
+  height: 64px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.headerInner {
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.15%;
+  color: #212b36;
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.closeBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* ── Content ── */
+.content {
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.contentInner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.hint {
+  width: 412px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  text-align: center;
+  margin: 0;
+}
+
+.input {
+  width: 412px;
+  height: 56px;
+  padding: 16px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  background: #ffffff;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: #212b36;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #637381;
+}
+
+.input:focus {
+  border-color: #696cff;
+}
+
+/* ── Actions ── */
+.actions {
+  width: 100%;
+  height: 68px;
+  padding: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.btnGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Back button */
+.backBtn {
+  height: 36px;
+  border-radius: 8px;
+  padding: 6px 16px;
+  border: 1px solid rgba(105, 108, 255, 0.5);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.backBtn:hover {
+  background: rgba(105, 108, 255, 0.04);
+}
+
+.backBtnText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  color: #696cff;
+}
+
+/* Continue button */
+.continueBtn {
+  height: 36px;
+  border-radius: 8px;
+  padding: 6px 16px;
+  border: none;
+  background: #696cff;
+  box-shadow:
+    0px 3px 1px -2px #919eab33,
+    0px 2px 2px 0px #919eab24,
+    0px 1px 5px 0px #919eab1f;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.continueBtn:hover {
+  opacity: 0.9;
+}
+
+.continueBtnText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+}

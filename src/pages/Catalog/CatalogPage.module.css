@@ -1,0 +1,110 @@
+.page {
+  background: #ffffff;
+  min-height: 100vh;
+  font-family: 'Lexend', sans-serif;
+}
+
+/* Title */
+.titleSection {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 108px;
+  backdrop-filter: blur(4px);
+  box-sizing: border-box;
+  color: #f5f5f5;
+}
+
+.pageTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 100%;
+  color: #212b36;
+  margin: 0;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 108px;
+  display: flex;
+  box-sizing: border-box;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.navCol {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 112px;
+}
+
+.mainCol {
+  width: 912px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Section title */
+.sectionHeader {
+  width: 912px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: -0.25px;
+  color: #212b36;
+  margin: 0;
+}
+
+.viewMoreBtn {
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  color: #696cff;
+  transition: background 0.2s;
+}
+
+.viewMoreBtn:hover {
+  background: rgba(105, 108, 255, 0.08);
+}
+
+/* Product grid */
+.productGrid {
+  width: 912px;
+  padding: 24px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.productGridItem {
+  width: 266.67px;
+  border-radius: 16px;
+}
+
+/* Vehicle inline list wrapper */
+.vehicleListWrap {
+  width: 912px;
+  padding: 8px 16px;
+  border-radius: 16px;
+}

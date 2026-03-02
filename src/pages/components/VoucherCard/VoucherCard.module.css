@@ -1,0 +1,93 @@
+/* ===== Voucher Card ===== */
+.card {
+  width: 100%;
+  padding: 10px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0px 2px 4px -1px rgba(145, 158, 171, 0.2),
+    0px 4px 5px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 10px 0px rgba(145, 158, 171, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-sizing: border-box;
+  justify-content: space-between;
+
+}
+
+/* Left: Text info */
+.info {
+  width: 268px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+}
+
+/* Right: Action */
+.action {
+  width: 77px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkboxWrap {
+  width: 42px;
+  height: 42px;
+  padding: 9px;
+  border-radius: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.checkboxWrap:hover {
+  background: rgba(105, 108, 255, 0.08);
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid #919eab;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkboxChecked {
+  border-color: #696cff;
+  background: #696cff;
+}
+
+.checkboxDisabled {
+  border-color: #c4cdd5;
+  background: #dfe3e8;
+  cursor: not-allowed;
+}
+
+.statusText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0.4px;
+  color: #637381;
+  white-space: nowrap;
+  align-self: flex-end;
+
+}
+
+.statusTextIneligible {
+  color: #ff5630;
+}

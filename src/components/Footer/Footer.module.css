@@ -1,0 +1,226 @@
+.footer {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  background: #ffffff;
+}
+
+/* ===== Stack 1: Main content ===== */
+.mainContent {
+  display: flex;
+  gap: 160px;
+  padding: 80px 108px;
+  border-top: 1px solid rgba(145, 158, 171, 0.24);
+  border-bottom: 1px solid rgba(145, 158, 171, 0.24);
+}
+
+/* --- Left column: Brand --- */
+.brand {
+  width: 457px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  flex-shrink: 0;
+}
+
+.brandInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.logo {
+  width: 110.7px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.description {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #637381;
+  margin: 0;
+}
+
+/* Social */
+.socialSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionLabel {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 0;
+  height: 36px;
+}
+
+.iconButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.iconButton:hover {
+  background: #f5f5f5;
+}
+
+.iconButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Apps */
+.appsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.appButtons {
+  display: flex;
+  gap: 16px;
+}
+
+.appBtn {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  background: linear-gradient(180deg, #161c24 0%, #000000 100%);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.appBtn:hover {
+  opacity: 0.9;
+}
+
+.appBtnIcon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.appBtnText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.appBtnLabel {
+  font-family: 'Public Sans', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: #ffffff;
+  opacity: 0.72;
+}
+
+.appBtnName {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  color: #ffffff;
+}
+
+/* --- Right column: Links --- */
+.linksArea {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+}
+
+.linkColumn {
+  width: 291.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.columnTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.link {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: #212b36;
+}
+
+/* ===== Stack 2: Bottom bar ===== */
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 108px;
+}
+
+.copyright {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+}
+
+.bottomLinks {
+  display: flex;
+  gap: 24px;
+}
+
+.bottomLink {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.bottomLink:hover {
+  color: #212b36;
+}

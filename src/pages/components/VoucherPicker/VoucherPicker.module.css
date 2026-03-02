@@ -1,0 +1,72 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ffffff;
+}
+
+/* ===== Input row ===== */
+.inputRow {
+  width: 100%;
+  height: 56px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 16px 0;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: #212b36;
+  background: transparent;
+}
+
+.input::placeholder {
+  color: #637381;
+}
+
+.applyBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #ff5630;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.applyBtn:hover {
+  opacity: 0.8;
+}
+
+/* ===== Divider ===== */
+.divider {
+  width: 380px;
+  height: 1px;
+  border: none;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Voucher list ===== */
+.voucherList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}

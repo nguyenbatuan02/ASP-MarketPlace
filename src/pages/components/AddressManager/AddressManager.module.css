@@ -1,0 +1,219 @@
+.card {
+  width: 1192px;
+  border-radius: 16px;
+  padding: 24px 16px;
+  background: #ffffff;
+  box-shadow:
+    0px 3px 1px -2px #919eab33,
+    0px 2px 2px 0px #919eab24,
+    0px 1px 5px 0px #919eab1f;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* ── Header ── */
+.header {
+  width: 1160px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.headerTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.15%;
+  color: #637381;
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  border-radius: 8px;
+  padding: 8px 22px;
+  border: none;
+  background: #696cff;
+  box-shadow:
+    0px 3px 1px -2px #919eab33,
+    0px 2px 2px 0px #919eab24,
+    0px 1px 5px 0px #919eab1f;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.addBtn:hover { opacity: 0.9; }
+
+.addBtnText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* ── Address list ── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.empty {
+  font-family: 'Lexend', sans-serif;
+  font-size: 14px;
+  color: #637381;
+  text-align: center;
+  padding: 24px 0;
+  margin: 0;
+}
+
+/* ── Single address row ── */
+.addressRow {
+  width: 1160px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  box-sizing: border-box;
+}
+
+.addressRow:last-child { border-bottom: none; }
+
+.locationIconWrap {
+  width: 67px;
+  height: 67px;
+  border-radius: 100px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* ── Info grid ── */
+.addressInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 32px;
+}
+
+.infoLabel {
+  width: 130px;
+  flex-shrink: 0;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+}
+
+.infoValueWrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.infoValue {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #212b36;
+}
+
+/* Default chip */
+.chip {
+  height: 32px;
+  border-radius: 100px;
+  padding: 4px;
+  background: rgba(105,108,255,0.08);
+  display: flex;
+  align-items: center;
+}
+
+.chipText {
+  padding: 3px 6px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.16px;
+  color: #696cff;
+  white-space: nowrap;
+}
+
+/* ── Action buttons ── */
+.addressActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-left: 16px;
+}
+
+.editBtn {
+  height: 42px;
+  border-radius: 4px;
+  padding: 8px 11px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.editBtn:hover { background: rgba(105,108,255,0.08); }
+
+.editBtnText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #696cff;
+}
+
+.deleteBtn {
+  height: 42px;
+  border-radius: 4px;
+  padding: 8px 11px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.deleteBtn:hover { background: rgba(255,86,48,0.08); }
+
+.deleteBtnText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #696cff;
+}

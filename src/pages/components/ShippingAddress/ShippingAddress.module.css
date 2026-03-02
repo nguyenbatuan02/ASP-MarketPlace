@@ -1,0 +1,105 @@
+.shippingCard {
+  width: 716px;
+  border-radius: 16px;
+  padding: 16px;
+  background: #ffffff;
+  box-sizing: border-box;
+  box-shadow:
+    0px 2px 4px -1px rgba(145, 158, 171, 0.2),
+    0px 4px 5px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 10px 0px rgba(145, 158, 171, 0.12);
+}
+
+.shippingHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.shippingIcon {
+  width: 24px;
+  height: 24px;
+  border: 1.5px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shippingTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #ff5630;
+}
+
+.shippingBody {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.shippingName {
+  width: 107px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.shippingAddress {
+  width: 352px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.shippingActions {
+  width: 177px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-left: auto;
+}
+
+.defaultChip {
+  border-radius: 100px;
+  padding: 4px;
+  background: rgba(54, 179, 126, 0.08);
+}
+
+.defaultChipInner {
+  padding: 3px 6px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.16px;
+  color: #36b37e;
+}
+
+.changeBtn {
+  padding: 8px 11px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #696cff;
+}
+
+.changeBtn:hover {
+  background: rgba(105, 108, 255, 0.08);
+}

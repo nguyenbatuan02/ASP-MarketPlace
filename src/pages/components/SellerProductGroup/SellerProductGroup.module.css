@@ -1,0 +1,102 @@
+.container {
+  width: 100%;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0px 2px 4px -1px rgba(145, 158, 171, 0.2),
+    0px 4px 5px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 10px 0px rgba(145, 158, 171, 0.12);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ===== Title ===== */
+.titleBar {
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  padding-right: 120px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.checkboxWrap {
+  width: 46px;
+  height: 46px;
+  padding: 9px;
+  border-radius: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.checkboxWrap:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.checkbox {
+  width: 21px;
+  height: 21px;
+  border-radius: 3px;
+  border: 2px solid #637381;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkboxChecked {
+  border-color: #696cff;
+  background: #696cff;
+}
+
+.sellerInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 64px;
+}
+
+.sellerId {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.locationIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.locationText {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+/* ===== Products ===== */
+.productsArea {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

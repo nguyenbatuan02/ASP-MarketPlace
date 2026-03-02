@@ -1,0 +1,177 @@
+.card {
+  width: 1192px;
+  border-radius: 16px;
+  padding: 16px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* ── Section titles ── */
+.sectionTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.15%;
+  color: #637381;
+}
+
+/* ── Rows ── */
+.row2 {
+  display: flex;
+  gap: 24px;
+  width: 1160px;
+}
+
+/* ── Float label fields ── */
+.fieldWrap {
+  position: relative;
+  flex: 1;
+  height: 56px;
+}
+
+.fieldFull {
+  width: 1160px;
+  flex: unset;
+}
+
+.floatLabel {
+  position: absolute;
+  top: -7px;
+  left: 12px;
+  padding: 0 4px;
+  background: #ffffff;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.15px;
+  color: #637381;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.input,
+.select {
+  width: 100%;
+  height: 56px;
+  padding: 16px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.23);
+  background: #ffffff;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: #212b36;
+  box-sizing: border-box;
+  outline: none;
+  appearance: none;
+}
+
+.inputDisabled {
+  color: #919eab;
+  background: #f9fafb;
+  cursor: not-allowed;
+}
+
+.input:focus,
+.select:focus { border-color: #696cff; }
+
+.select { padding-right: 40px; cursor: pointer; }
+
+.fieldIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Business address text ── */
+.addressText {
+  width: 1160px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+/* ── Image hint ── */
+.imageHint {
+  width: 1160px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #637381;
+  margin: 0;
+}
+
+/* ── Upload section ── */
+.uploadSection {
+  width: 1160px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.uploadGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.uploadLabel {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #637381;
+}
+
+.uploadBox {
+  width: 1160px;
+  height: 240px;
+  border-radius: 8px;
+  border: 1px dashed rgba(145,158,171,0.32);
+  background: #f4f6f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.uploadBox:hover { background: #eef0f2; }
+
+.uploadPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.uploadHint {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #919eab;
+}
+
+.uploadPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

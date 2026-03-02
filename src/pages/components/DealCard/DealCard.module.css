@@ -1,0 +1,230 @@
+.card {
+  width: 795px;
+  height: 112px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 0;
+  background: #faf5f5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+/* Left */
+.left {
+  display: flex;
+  align-items: center;
+  width: 401px;
+  height: 80px;
+  padding-left: 24px;
+  box-sizing: border-box;
+}
+
+.checkboxOuter {
+  width: 66px;
+  height: 66px;
+  padding: 12px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.checkboxInner {
+  width: 42px;
+  height: 42px;
+  padding: 9px;
+  border-radius: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.checkboxOuter:hover .checkboxInner {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 2px solid #637381;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkboxChecked {
+  border-color: #696cff;
+  background: #696cff;
+}
+
+.productStack {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 311px;
+  height: 80px;
+}
+
+.productImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.productImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Deal chip */
+.dealChip {
+  width: fit-content;
+  padding: 3px 4px;
+  border-radius: 100px;
+  border: 1px solid #ff5630;
+  display: inline-flex;
+  align-items: center;
+}
+
+.dealChipInner {
+  padding: 0 6px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.16px;
+  color: #ff5630;
+}
+
+.productName {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.productSku {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+}
+
+/* Right: quantity + price + delete */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: 370px;
+  height: 56px;
+}
+
+.quantityWrap {
+  width: 127px;
+  height: 56px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #ffffff;
+}
+
+.qtyBtn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.qtyBtn:hover {
+  opacity: 0.7;
+}
+
+.qtyValue {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  text-align: center;
+  color: #637381;
+  flex: 1;
+}
+
+.priceWrap {
+  width: 123px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.priceCurrent {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.15%;
+  text-align: right;
+  color: #ff5630;
+}
+
+.priceOriginal {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  text-align: right;
+  text-decoration: line-through;
+  color: #919eab;
+}
+
+.deleteBtn {
+  width: 72px;
+  height: 48px;
+  padding: 12px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.deleteBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}

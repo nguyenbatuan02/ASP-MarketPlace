@@ -1,0 +1,383 @@
+.navbar {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: #ffffff;
+}
+
+/* ===== Search Box (phụ tùng) ===== */
+.searchBox {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 8px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-sizing: border-box;
+  box-shadow:
+    0px 2px 4px -1px rgba(145, 158, 171, 0.2),
+    0px 4px 5px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 10px 0px rgba(145, 158, 171, 0.12);
+}
+
+.searchTypeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 264px;
+  height: 40px;
+}
+
+.searchTypeLabel {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.15%;
+  color: #212b36;
+  white-space: nowrap;
+}
+
+/* Select */
+.select {
+  width: 128px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  background: #ffffff;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='5' viewBox='0 0 10 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L5 5L10 0' fill='%230000008F'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Text input */
+.inputWrap {
+  width: 264px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #212b36;
+  background: transparent;
+}
+
+.input::placeholder {
+  color: #637381;
+}
+
+.inputIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Search button row */
+.searchBtnRow {
+  width: 264px;
+  height: 36px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchBtn {
+  height: 36px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #212b36;
+  box-shadow:
+    0px 3px 1px -2px rgba(145, 158, 171, 0.2),
+    0px 2px 2px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 5px 0px rgba(145, 158, 171, 0.12);
+  cursor: pointer;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  transition: opacity 0.2s;
+}
+
+.searchBtn:hover {
+  opacity: 0.9;
+}
+
+/* ===== Search Box (xe) ===== */
+.searchBoxVehicle {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 8px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-sizing: border-box;
+  box-shadow:
+    0px 2px 4px -1px rgba(145, 158, 171, 0.2),
+    0px 4px 5px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 10px 0px rgba(145, 158, 171, 0.12);
+}
+
+/* Switch */
+.switchRow {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  width: 224px;
+  height: 38px;
+}
+
+.switch {
+  position: relative;
+  width: 58px;
+  height: 38px;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.switchTrack {
+  position: absolute;
+  top: 50%;
+  width: 34px;
+  height: 14px;
+  border-radius: 10px;
+  background: #000000;
+  opacity: 0.38;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.switchTrackActive {
+  background: #696cff;
+  opacity: 0.5;
+}
+
+.switchKnob {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fafafa;
+  box-shadow:
+    -1px 1px 2px 0px rgba(145, 158, 171, 0.16),
+    1px 1px 4px 0px rgba(145, 158, 171, 0.14);
+  position: absolute;
+  left: 0;
+  transition: left 0.2s;
+}
+
+.switchKnobActive {
+  left: calc(100% - 20px);
+  background: #696cff;
+}
+
+.switchLabel {
+  height: 24px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.15px;
+  color: #212b36;
+}
+
+/* Vehicle select */
+.vehicleSelect {
+  width: 232px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  background: #ffffff;
+  appearance: none;
+  margin: 0 auto;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='5' viewBox='0 0 10 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L5 5L10 0' fill='%230000008F'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+  outline: none;
+}
+
+/* ===== Filter Section (Category, Sub-category, Thương hiệu) ===== */
+.filterSection {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filterHeader {
+  width: 280px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.filterTitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #212b36;
+}
+
+.filterToggle {
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.filterToggle:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Checkbox list */
+.filterList {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterItem {
+  width: 280px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkboxWrap {
+  width: 42px;
+  height: 42px;
+  padding: 9px;
+  border-radius: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.filterItem:hover .checkboxWrap {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 2px solid #637381;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkboxChecked {
+  border-color: #696cff;
+  background: #696cff;
+}
+
+.filterItemLabel {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #212b36;
+}
+
+/* ===== Clear Button ===== */
+.clearBtn {
+  width: 280px;
+  height: 42px;
+  padding: 8px 22px;
+  border-radius: 8px;
+  border: none;
+  background: #212b36;
+  box-shadow:
+    0px 3px 1px -2px rgba(145, 158, 171, 0.2),
+    0px 2px 2px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 5px 0px rgba(145, 158, 171, 0.12);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #ffffff;
+  transition: opacity 0.2s;
+}
+
+.clearBtn:hover {
+  opacity: 0.9;
+}
+
+.clearIcon {
+  width: 18px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

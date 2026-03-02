@@ -1,0 +1,90 @@
+.card {
+  width: 341px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  width: 283px;
+  height: 50px;
+}
+
+.checkboxOuter {
+  width: 50px;
+  height: 50px;
+  padding: 4px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.checkboxInner {
+  width: 42px;
+  height: 42px;
+  padding: 9px;
+  border-radius: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.checkboxOuter:hover .checkboxInner {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 2px solid #637381;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkboxChecked {
+  border-color: #696cff;
+  background: #696cff;
+}
+
+.label {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #212b36;
+  white-space: nowrap;
+}
+
+.arrowBtn {
+  width: 50px;
+  height: 50px;
+  padding: 4px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.arrowBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}

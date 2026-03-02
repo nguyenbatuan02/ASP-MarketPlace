@@ -1,0 +1,244 @@
+.card {
+  width: 1080px;
+  border-radius: 24px;
+  padding: 24px 16px;
+  background: #ffffff;
+  box-shadow:
+    0px 2px 4px -1px #919eab33,
+    0px 4px 5px 0px #919eab24,
+    0px 1px 10px 0px #919eab1f;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* ── Frame 1: mode selector ── */
+.frame1 {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 56px;
+}
+
+.labelWrap {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.label {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: -0.25px;
+  color: #212b36;
+  white-space: nowrap;
+}
+
+/* ── Shared select ── */
+.selectWrap {
+  position: relative;
+  width: 220px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.selectWrapFull {
+  position: relative;
+  flex: 1;
+  height: 56px;
+}
+
+.select {
+  width: 100%;
+  height: 56px;
+  padding: 16px 40px 16px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  background: #ffffff;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: #637381;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.select:focus {
+  border-color: #696cff;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Frame 2 ── */
+.frame2 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* ── Text input ── */
+.inputWrap {
+  position: relative;
+  width: 100%;
+  height: 56px;
+}
+
+.input {
+  width: 100%;
+  height: 56px;
+  padding: 16px 44px 16px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  background: #ffffff;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: #212b36;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #637381;
+}
+
+.input:focus {
+  border-color: #696cff;
+}
+
+.inputIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* ── Search button row ── */
+.btnRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.searchBtn {
+  height: 42px;
+  padding: 8px 22px;
+  border-radius: 8px;
+  border: none;
+  background: #212b36;
+  box-shadow:
+    0px 3px 1px -2px #919eab33,
+    0px 2px 2px 0px #919eab24,
+    0px 1px 5px 0px #919eab1f;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: 0.46px;
+  color: #ffffff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.searchBtn:hover {
+  opacity: 0.9;
+}
+
+/* ── Toggle (VIN switch) ── */
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 38px;
+}
+
+.toggle {
+  position: relative;
+  width: 58px;
+  height: 38px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.toggleTrack {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 34px;
+  height: 14px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.26);
+  transition: background 0.2s;
+}
+
+.toggleOn .toggleTrack {
+  background: rgba(105, 108, 255, 0.5);
+}
+
+.toggleKnob {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  box-shadow:
+    -1px 1px 2px 0px #919eab29,
+    1px 1px 4px 0px #919eab24;
+  transition: left 0.2s, background 0.2s;
+}
+
+.toggleOn .toggleKnob {
+  left: calc(100% - 20px);
+  background: #696cff;
+}
+
+.toggleLabel {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.15px;
+  color: #212b36;
+}
+
+/* ── Vehicle selects grid ── */
+.selectGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.selectRow {
+  display: flex;
+  gap: 24px;
+}

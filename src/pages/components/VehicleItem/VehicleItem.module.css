@@ -1,0 +1,259 @@
+/* ===== Desktop ===== */
+.card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0px 2px 4px -1px rgba(145, 158, 171, 0.2),
+    0px 4px 5px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 10px 0px rgba(145, 158, 171, 0.12);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Radio */
+.radioWrap {
+  width: 42px;
+  height: 42px;
+  padding: 9px;
+  border-radius: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-sizing: border-box;
+}
+
+.radioWrap:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #637381;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.radioSelected {
+  border-color: #696cff;
+}
+
+.radioDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #696cff;
+}
+
+/* Item */
+.item {
+  flex: 1;
+  min-width: 0;
+  height: 112px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px;
+  background: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.itemInner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+  height: 80px;
+}
+
+/* Image */
+.imageWrap {
+  width: 110px;
+  height: 80px;
+  padding: 10px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.image {
+  width: 90px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* Info */
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.title {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #000000;
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  margin: 0;
+}
+
+.specs {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  margin: 0;
+}
+
+/* ===== Mobile ===== */
+.cardMobile {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0px 2px 4px -1px rgba(145, 158, 171, 0.2),
+    0px 4px 5px 0px rgba(145, 158, 171, 0.14),
+    0px 1px 10px 0px rgba(145, 158, 171, 0.12);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.radioWrapMobile {
+  width: 38px;
+  height: 38px;
+  padding: 9px;
+  border-radius: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-sizing: border-box;
+}
+
+.radioWrapMobile:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.radioMobile {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #637381;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.itemMobile {
+  flex: 1;
+  min-width: 0;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 8px;
+  background: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.itemInnerMobile {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 76px;
+  background: #ffffff;
+}
+
+.imageWrapMobile {
+  width: 106px;
+  height: 76px;
+  padding: 8px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageMobile {
+  width: 90px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.infoMobile {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.titleMobile {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0.5px;
+  color: #000000;
+  margin: 0 0 4px;
+}
+
+.subtitleMobile {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  margin: 0;
+}
+
+.specsMobile {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 0.25px;
+  color: #637381;
+  margin: 0;
+}
