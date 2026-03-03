@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { CHECKOUT_TEXT, type Order } from '../../Checkout/constants';
+import { type Order } from '../../Checkout/constants';
 import { formatPrice } from '../../../utils/format';
 import styles from './OrderGroup.module.css';
 
 interface Props {
   order: Order;
+  onNoteChange?: (note: string) => void;
 }
 
 const LocationIcon = () => (
@@ -21,7 +22,7 @@ const VoucherIcon = () => (
   </svg>
 );
 
-export default function OrderGroup({ order }: Props) {
+export default function OrderGroup({ order, onNoteChange }: Props) {
   const [message, setMessage] = useState('');
 
   return (
@@ -79,17 +80,17 @@ export default function OrderGroup({ order }: Props) {
       {/* Message + Total */}
       <div className={styles.orderFooter}>
         <div className={styles.messageSection}>
-          <span className={styles.messageLabel}>{CHECKOUT_TEXT.messageLabel}</span>
+          <span className={styles.messageLabel}>Lời nhắn dành cho nhà bán</span>
           <input
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder={CHECKOUT_TEXT.messagePlaceholder}
+            onChange={(e) => { setMessage(e.target.value); onNoteChange?.(e.target.value); }}
+            placeholder="Lời nhắn"
             className={styles.messageInput}
           />
         </div>
         <div className={styles.totalSection}>
           <div className={styles.totalRow}>
-            <span className={styles.totalLabel}>{CHECKOUT_TEXT.totalLabel(order.totalItems)}</span>
+            <span className={styles.totalLabel}>Tổng số tiền ({order.totalItems} sản phẩm)</span>
             <span className={styles.totalPrice}>{formatPrice(order.totalPrice)}</span>
           </div>
         </div>

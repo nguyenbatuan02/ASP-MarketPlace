@@ -12,8 +12,8 @@ export interface SessionResult {
   uid: number | false;
   name: string;
   username: string;
-  partner_id: [number, string];
-  company_id: [number, string];
+  partner_id: number;
+  company_id: number;
   is_admin: boolean;
   is_system: boolean;
 }
@@ -32,8 +32,8 @@ export const authService = {
       uid: result.uid,
       name: result.name,
       username: result.username,
-      partner_id: result.partner_id[0],
-      company_id: result.company_id[0],
+      partner_id: result.partner_id,
+      company_id: result.company_id,
     };
   },
 
@@ -49,8 +49,8 @@ export const authService = {
         uid: result.uid,
         name: result.name,
         username: result.username,
-        partner_id: result.partner_id[0],
-        company_id: result.company_id[0],
+        partner_id: result.partner_id,
+        company_id: result.company_id,
       };
     } catch {
       return null;

@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import RegisterModal from '../../pages/components/RegisterModal/RegisterModal';
+import LoginModal from '../../pages/components/LoginModal/LoginModal';
 import OtpModal from '../../pages/components/OtpModal/OtpModal';
 import SellerRegisterModal from '../../pages/components/SellerRegisterModal/SellerRegisterModal';
+import { useAuthStore } from '../../stores/authStore';
 import styles from './Header.module.css';
 
-type Step = 'register' | 'otp' | 'seller-register' | null;
+type Step = 'login' | 'register' | 'otp' | 'seller-register' | null;
 
 const ChevronDownIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -13,8 +15,96 @@ const ChevronDownIcon = () => (
   </svg>
 );
 
+function UserDropdown({ name, onLogout }: { name: string; onLogout: () => void }) {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6,
+          background: 'transparent', border: '1px solid rgba(0,0,0,0.2)',
+          borderRadius: 8, padding: '6px 12px', cursor: 'pointer',
+          fontFamily: 'Lexend, sans-serif', fontSize: 14, color: '#212b36',
+        }}
+      >
+        <div style={{
+          width: 28, height: 28, borderRadius: '50%',
+          background: '#696CFF', display: 'flex', alignItems: 'center',
+          justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 13,
+        }}>
+          {name.charAt(0).toUpperCase()}
+        </div>
+        <span style={{ maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {name}
+        </span>
+        <ChevronDownIcon />
+      </button>
+
+      {open && (
+        <div style={{
+          position: 'absolute', top: '110%', right: 0, width: 180,
+          background: '#fff', borderRadius: 8, boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+          overflow: 'hidden', zIndex: 100,
+        }}>
+          {[
+            { label: 'Tài khoản', path: '/account' },
+            { label: 'Đơn hàng', path: '/orders' },
+            { label: 'Giỏ hàng', path: '/cart' },
+          ].map(item => (
+            <button
+              key={item.path}
+              onClick={() => { navigate(item.path); setOpen(false); }}
+              style={{
+                width: '100%', padding: '12px 16px', background: 'transparent',
+                border: 'none', cursor: 'pointer', textAlign: 'left',
+                fontFamily: 'Lexend, sans-serif', fontSize: 14, color: '#212b36',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#f4f6f8')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+            >
+              {item.label}
+            </button>
+          ))}
+          <hr style={{ margin: '4px 0', border: 'none', borderTop: '1px solid rgba(0,0,0,0.08)' }} />
+          <button
+            onClick={() => { onLogout(); setOpen(false); }}
+            style={{
+              width: '100%', padding: '12px 16px', background: 'transparent',
+              border: 'none', cursor: 'pointer', textAlign: 'left',
+              fontFamily: 'Lexend, sans-serif', fontSize: 14, color: '#FF5630',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#fff2f0')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+          >
+            Đăng xuất
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Header() {
+  const navigate = useNavigate();
+  const { user, isLoggedIn, logout } = useAuthStore();
   const [step, setStep] = useState<Step>(null);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
 
   return (
     <>
@@ -37,7 +127,7 @@ export default function Header() {
             </NavLink>
 
             <NavLink
-              to="/category"
+              to="/catalog"
               className={({ isActive }) =>
                 `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
               }
@@ -57,16 +147,26 @@ export default function Header() {
         </div>
 
         <div className={styles.siteAction}>
-          <button
-            className={styles.btnRegister}
-            onClick={() => setStep('register')}
-          >
-            Đăng ký
-          </button>
+          
+          {isLoggedIn ? (
+            <UserDropdown name={user?.name || 'User'} onLogout={handleLogout} />
+          ) : (
+            <>
+              <button
+                className={styles.btnRegister}
+                onClick={() => setStep('register')}
+                >
+                Đăng ký
+              </button>
 
-          <button className={styles.btnLogin}>
-            Đăng nhập
-          </button>
+              <button
+                className={styles.btnLogin}
+                onClick={() => setStep('login')}
+              >
+                Đăng nhập
+              </button>
+            </>
+          )}
         </div>
       </header>
 
@@ -74,7 +174,7 @@ export default function Header() {
       <RegisterModal
         open={step === 'register'}
         onClose={() => setStep(null)}
-        onLoginClick={() => setStep(null)}
+        onLoginClick={() => setStep('login')}
         onSellerRegisterClick={() => window.open('/seller/register')}
         onSubmit={() => {
           setStep('otp');
@@ -91,6 +191,12 @@ export default function Header() {
         }}
       />
 
+      <LoginModal
+        open={step === 'login'}
+        onClose={() => setStep(null)}
+        onRegisterClick={() => setStep('register')}
+      />
+
       {/* OTP */}
       <OtpModal
         open={step === 'otp'}
@@ -104,3 +210,5 @@ export default function Header() {
     </>
   );
 }
+
+

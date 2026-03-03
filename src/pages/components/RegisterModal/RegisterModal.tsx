@@ -196,6 +196,7 @@ export default function RegisterModal({
                     { value: '', label: '' },
                     { value: 'male', label: 'Nam' },
                     { value: 'female', label: 'Nữ' },
+
                   ]}
                 />
 
@@ -282,6 +283,10 @@ export default function RegisterModal({
           setOpenSeller(false);
         }}
       />
+
+        
     </>
+     
+    
   );
 }

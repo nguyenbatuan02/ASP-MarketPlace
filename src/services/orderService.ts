@@ -2,9 +2,11 @@ import { callKw } from '../api/odoo';
 
 export interface OdooOrderLine {
   id: number;
+  order_id: [number, string];
   product_id: [number, string];
   name: string;
   product_uom_qty: number;
+  product_template_id: [number, string];
   price_unit: number;
   price_subtotal: number;
   price_total: number;
@@ -29,10 +31,10 @@ export interface OdooOrderDetail extends OdooOrder {
 }
 
 const STATE_LABEL: Record<string, string> = {
-  draft: 'Nháp',
-  sent: 'Đã gửi báo giá',
-  sale: 'Đang xử lý',
-  done: 'Hoàn thành',
+  draft: 'Chờ xác nhận',
+  sent: 'Chờ xác nhận',
+  sale: 'Chờ lấy hàng',
+  done: 'Đã giao',
   cancel: 'Đã hủy',
 };
 

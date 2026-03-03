@@ -15,6 +15,9 @@ export interface Address {
 
 interface AddressManagerProps {
   initialAddresses?: Address[];
+  onAdd?: (addr: Address) => Promise<void>;      
+  onUpdate?: (addr: Address) => Promise<void>;   
+  onDelete?: (id: string) => Promise<void>;
 }
 
 const LocationIcon = () => (
@@ -90,7 +93,7 @@ const toFormData = (a: Address): AddressFormData => ({
   district: a.district, detail: a.detail, isDefault: a.isDefault,
 });
 
-export default function AddressManager({ initialAddresses = [] }: AddressManagerProps) {
+export default function AddressManager({ initialAddresses = [], onAdd, onUpdate, onDelete }: AddressManagerProps) {
   const [addresses, setAddresses] = useState<Address[]>(initialAddresses);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -100,20 +103,25 @@ export default function AddressManager({ initialAddresses = [] }: AddressManager
   const openAdd = () => { setEditingId(null); setModalOpen(true); };
   const openEdit = (id: string) => { setEditingId(id); setModalOpen(true); };
 
-  const handleSave = (data: AddressFormData) => {
+  const handleSave = async (data: AddressFormData) => {
     if (editingId) {
+      const updated: Address = {
+        ...addresses.find(a => a.id === editingId)!,
+        ...data, ward: '', district: data.district, city: data.city,
+      };
+      await onUpdate?.(updated);                 
       setAddresses(prev => prev.map(a =>
-        a.id === editingId
-          ? { ...a, ...data, ward: '', district: data.district, city: data.city }
-          : data.isDefault ? { ...a, isDefault: false } : a
+        a.id === editingId ? updated
+        : data.isDefault ? { ...a, isDefault: false } : a
       ));
     } else {
       const newAddr: Address = {
-        id: Date.now().toString(),
+        id: Date.now().toString(),              
         name: data.name, phone: data.phone,
         detail: data.detail, ward: '', district: data.district,
         city: data.city, isDefault: data.isDefault,
       };
+      await onAdd?.(newAddr);                    
       setAddresses(prev =>
         data.isDefault
           ? [...prev.map(a => ({ ...a, isDefault: false })), newAddr]
@@ -123,7 +131,11 @@ export default function AddressManager({ initialAddresses = [] }: AddressManager
     setModalOpen(false);
   };
 
-  const handleDelete = (id: string) => setAddresses(prev => prev.filter(a => a.id !== id));
+
+  const handleDelete = async (id: string) => {
+    await onDelete?.(id);
+    setAddresses(prev => prev.filter(a => a.id !== id));
+  };
 
   return (
     <>
