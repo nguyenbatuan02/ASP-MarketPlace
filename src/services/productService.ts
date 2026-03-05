@@ -27,10 +27,19 @@ export interface ProductVariant {
   attribute_value_ids: number[];
 }
 
+export interface AspBrand {
+  id: number;
+  name: string;
+  description: string | false;
+  image_128: string | false;
+  product_count: number;
+}
+
 export interface ProductCategory {
   id: number;
   name: string;
   parent_id: [number, string] | false;
+  image_128: string | false;
 }
 
 const PRODUCT_FIELDS = [
@@ -40,6 +49,21 @@ const PRODUCT_FIELDS = [
 ];
 
 export const productService = {
+    // Lấy danh sách thương hiệu
+  async getBrands(): Promise<AspBrand[]> {
+    return callKw<AspBrand[]>('asp.brand', 'search_read', [[]], {
+      fields: ['id', 'name', 'description', 'image_128', 'product_count'],
+      order: 'name asc',
+    });
+  },
+
+  // Lấy sản phẩm theo brand
+  async getProductsByBrand(brandId: number, limit = 20, offset = 0): Promise<OdooProduct[]> {
+    return callKw<OdooProduct[]>('product.template', 'search_read', [
+      [['brand_id', '=', brandId], ['website_published', '=', true]],
+    ], { fields: PRODUCT_FIELDS, limit, offset, order: 'name asc' });
+  },
+
   // Lấy danh sách sản phẩm (có filter, search, phân trang)
   async getProducts(opts: {
     search?: string;
@@ -74,10 +98,11 @@ export const productService = {
   },
 
   // Đếm tổng số sản phẩm (cho phân trang)
-  async countProducts(opts: { search?: string; categoryId?: number } = {}): Promise<number> {
-    const { search, categoryId } = opts;
+  async countProducts(opts: { search?: string; categoryId?: number; brandId?: number } = {}): Promise<number> {
+    const { search, categoryId, brandId } = opts;
     const domain: unknown[] = [['website_published', '=', true]];
     if (categoryId) domain.push(['categ_id', '=', categoryId]);
+    if (brandId) domain.push(['brand_id', '=', brandId]);
     if (search) domain.push(['name', 'ilike', search]);
 
     return callKw<number>('product.template', 'search_count', [domain]);
@@ -86,7 +111,7 @@ export const productService = {
   // Lấy danh mục sản phẩm
   async getCategories(): Promise<ProductCategory[]> {
     return callKw<ProductCategory[]>('product.category', 'search_read', [[]], {
-      fields: ['id', 'name', 'parent_id'],
+      fields: ['id', 'name', 'parent_id', 'image_128'],
       order: 'name asc',
     });
   },
