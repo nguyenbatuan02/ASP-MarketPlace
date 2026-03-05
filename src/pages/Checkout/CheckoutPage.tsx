@@ -35,15 +35,14 @@ export default function CheckoutPage() {
   // Redirect nếu chưa login hoặc cart trống
   useEffect(() => {
     if (!isLoggedIn) {
-      showToast('Vui lòng đăng nhập để đặt hàng', 'warning');
       navigate('/');
       return;
     }
+
     if (items.length === 0) {
       navigate('/cart');
-      return;
     }
-  }, [isLoggedIn, items.length]);
+  }, []);
 
   // Fetch địa chỉ từ res.partner của user
   useEffect(() => {

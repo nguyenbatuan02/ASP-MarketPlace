@@ -6,13 +6,13 @@ import HotlineBanner from '../components/HotlineBanner/HotlineBanner';
 import SellerProductCard from '../components/SellerProductCard/SellerProductCard';
 import ProductDetailTabs from '../components/ProductDetailTabs/ProductDetailTabs';
 import ProductItem from '../components/ProductItem/ProductItem';
+import CartToast from '../components/CartToast/CartToast';
 import { productService, type OdooProduct } from '../../services/productService';
 import { callKw } from '../../api/odoo';
 import { useUiStore } from '../../stores/uiStore';
 import styles from './ProductDetailPage.module.css';
 import { useCartStore } from '../../stores/cartStore';
 
-// ── Types ──────────────────────────────────────────────────
 interface SupplierInfo {
   id: number;
   partner_id: [number, string];
@@ -21,7 +21,6 @@ interface SupplierInfo {
   delay: number;
 }
 
-// ── Icons ──────────────────────────────────────────────────
 const ChevronLeftIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="rgba(0,0,0,0.54)" />
@@ -33,14 +32,12 @@ const ChevronRightIcon = () => (
   </svg>
 );
 
-// ── Helpers ────────────────────────────────────────────────
 const formatPrice = (price: number) =>
   price.toLocaleString('vi-VN') + 'đ';
 
 const odooImageUrl = (id: number) =>
   `/web/image/product.template/${id}/image_1920`;
 
-// Build attributes array từ OdooProduct
 function buildAttributes(p: OdooProduct) {
   return [
     { label: 'Mã sản phẩm',   value: p.id },
@@ -53,7 +50,6 @@ function buildAttributes(p: OdooProduct) {
   ];
 }
 
-// ── Skeleton ───────────────────────────────────────────────
 function PageSkeleton() {
   return (
     <div style={{ padding: '32px 24px' }}>
@@ -67,7 +63,6 @@ function PageSkeleton() {
   );
 }
 
-// ── Section header ─────────────────────────────────────────
 function SectionHeader({ title, showViewAll = false }: { title: string; showViewAll?: boolean }) {
   return (
     <div className={styles.sectionHeader}>
@@ -81,7 +76,6 @@ function SectionHeader({ title, showViewAll = false }: { title: string; showView
   );
 }
 
-// ── Carousel ───────────────────────────────────────────────
 function ProductCarousel({ products }: { products: OdooProduct[] }) {
   const [offset, setOffset] = useState(0);
   const visible = 3;
@@ -119,17 +113,17 @@ function ProductCarousel({ products }: { products: OdooProduct[] }) {
   );
 }
 
-// ── Main page ──────────────────────────────────────────────
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const showToast = useUiStore(s => s.showToast);
   const addItem = useCartStore(s => s.addItem);
-
+  const [qty, setQty] = useState(1);
+  const [toastOpen, setToastOpen] = useState(false);
   const handleAddToCart = () => {
     if (!product) return;
-    addItem(product);
-    showToast(`Đã thêm "${product.name}" vào giỏ hàng`, 'success');
+    addItem(product, qty);
+    setToastOpen(true);
   };
 
   const [product, setProduct]       = useState<OdooProduct | null>(null);
@@ -254,20 +248,26 @@ export default function ProductDetailPage() {
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: 16, display: 'flex', gap: 12 }}>
-                <button
-                  onClick={handleAddToCart}
-                  style={{
-                    padding: '12px 28px',
-                    background: '#696CFF',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: 8,
-                    fontSize: 15,
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
+              <div style={{ marginTop: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
+                {/* Qty counter */}
+                <div style={{
+                  display: 'flex', alignItems: 'center',
+                  border: '1px solid rgba(0,0,0,0.2)', borderRadius: 8, overflow: 'hidden',
+                }}>
+                  <button
+                    onClick={() => setQty(q => Math.max(1, q - 1))}
+                    style={{ width: 36, height: 44, background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 20, color: '#637381', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >‹</button>
+                  <span style={{ minWidth: 32, textAlign: 'center', fontFamily: 'Lexend, sans-serif', fontSize: 15, fontWeight: 600, color: '#637381' }}>
+                    {qty}
+                  </span>
+                  <button
+                    onClick={() => setQty(q => q + 1)}
+                    style={{ width: 36, height: 44, background: 'transparent', border: 'none', cursor: 'pointer', fontSize: 20, color: '#637381', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >›</button>
+                </div>
+
+                <button onClick={handleAddToCart} style={{ padding: '12px 28px', background: '#696CFF', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>
                   Thêm vào giỏ hàng
                 </button>
               </div>
@@ -337,6 +337,17 @@ export default function ProductDetailPage() {
       </div>
 
       <Footer />
+        {product && (
+          <CartToast
+            open={toastOpen}
+            productName={product.name}
+            productImage={odooImageUrl(product.id)}
+            qty={qty}
+            price={product.list_price}
+            onClose={() => setToastOpen(false)}
+          />
+        )}
+      
     </div>
   );
 }
