@@ -19,7 +19,7 @@ const formatPrice = (n: number) => n.toLocaleString('vi-VN') + 'đ';
 
 const toProductItemData = (p: OdooProduct) => ({
   productId: p.id,
-  sku: `${p.id}`,
+  sku: p.global_code || `${p.id}`,
   name: p.name,
   image: odooImageUrl(p.id),
   brandLogo: '',
@@ -45,6 +45,7 @@ export default function CatalogPage() {
   const [searchParams] = useSearchParams();
   const categoryId = searchParams.get('category') ? Number(searchParams.get('category')) : undefined;
   const brandId = searchParams.get('brand') ? Number(searchParams.get('brand')) : undefined;
+  const codeQuery  = searchParams.get('code')     ?? undefined;
 
   const showToast = useUiStore(s => s.showToast);
 
@@ -66,14 +67,18 @@ export default function CatalogPage() {
       setLoading(true);
       try {
         const [data, count] = await Promise.all([
-          brandId
-            ? productService.getProductsByBrand(brandId, ITEMS_PER_PAGE, (page - 1) * ITEMS_PER_PAGE)
-            : productService.getProducts({ limit: ITEMS_PER_PAGE, offset: (page - 1) * ITEMS_PER_PAGE, categoryId }),
-          brandId
-            ? productService.countProducts({ brandId })
-            : productService.countProducts({ categoryId }),
+          codeQuery
+            ? productService.searchByCode(codeQuery)
+            : brandId
+              ? productService.getProductsByBrand(brandId, ITEMS_PER_PAGE, (page - 1) * ITEMS_PER_PAGE)
+              : productService.getProducts({ limit: ITEMS_PER_PAGE, offset: (page - 1) * ITEMS_PER_PAGE, categoryId }),
+          codeQuery
+            ? Promise.resolve(0)   
+            : brandId
+              ? productService.countProducts({ brandId })
+              : productService.countProducts({ categoryId }),
         ]);
-        if (!cancelled) { setProducts(data); setTotal(count); }
+        if (!cancelled) { setProducts(data);   setTotal(codeQuery ? data.length : count); }
       } catch {
         if (!cancelled) showToast('Không thể tải danh sách sản phẩm', 'error');
       } finally {
@@ -82,7 +87,7 @@ export default function CatalogPage() {
     };
     fetch();
     return () => { cancelled = true; };
-  }, [page, categoryId, brandId]);
+  }, [page, categoryId, brandId, codeQuery]);
 
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 

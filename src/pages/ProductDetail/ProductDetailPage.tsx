@@ -40,7 +40,7 @@ const odooImageUrl = (id: number) =>
 
 function buildAttributes(p: OdooProduct) {
   return [
-    { label: 'Mã sản phẩm',   value: p.id },
+    { label: 'Mã sản phẩm',   value: p.global_code || p.id},
     { label: 'Thương hiệu',   value: 'TOYOTA' },
     { label: 'Nước sản xuất', value: 'Nhật Bản' },
     { label: 'Danh mục',      value: p.categ_id?.[1] ?? '—' },

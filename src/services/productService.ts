@@ -15,6 +15,7 @@ export interface OdooProduct {
   slug: string | false;
   currency_id: [number, string];
   taxes_id: number[];
+  global_code?: string | false;
 }
 
 export interface ProductVariant {
@@ -45,10 +46,24 @@ export interface ProductCategory {
 const PRODUCT_FIELDS = [
   'id', 'name', 'description_sale', 'list_price', 'categ_id',
   'image_1920', 'qty_available', 'type', 'website_published',
-  'currency_id', 'taxes_id', 'standard_price',
+  'currency_id', 'taxes_id', 'standard_price', 'global_code'
 ];
 
 export const productService = {
+
+// Tìm kiếm theo global code (normalize: bỏ -, space, lowercase)
+  async searchByCode(rawCode: string): Promise<OdooProduct[]> {
+    const normalized = rawCode.replace(/[\s\-]/g, '').toLowerCase();
+    if (!normalized) return [];
+    return callKw<OdooProduct[]>('product.template', 'search_read', [
+      [['global_code_normalized', 'ilike', normalized]],
+    ], {
+      fields: [...PRODUCT_FIELDS, 'global_code'],
+      limit: 40,
+      order: 'name asc',
+    });
+  },
+
     // Lấy danh sách thương hiệu
   async getBrands(): Promise<AspBrand[]> {
     return callKw<AspBrand[]>('asp.brand', 'search_read', [[]], {

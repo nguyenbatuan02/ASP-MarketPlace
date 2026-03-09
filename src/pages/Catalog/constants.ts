@@ -14,7 +14,7 @@ export const MOCK_FILTERS: FilterGroup[] = [
   {
     title: 'Category',
     options: [
-      { label: 'Chất lỏng', checked: true },
+      { label: 'Chất lỏng', checked: false},
       { label: 'Phần máy', checked: false },
       { label: 'Phần gầm', checked: false },
       { label: 'Phần điện', checked: false },
@@ -23,16 +23,16 @@ export const MOCK_FILTERS: FilterGroup[] = [
   {
     title: 'Sub-category',
     options: [
-      { label: 'Dầu nhớt', checked: true },
-      { label: 'Dầu động cơ', checked: true },
-      { label: 'Dầu phanh', checked: true },
+      { label: 'Dầu nhớt', checked: false },
+      { label: 'Dầu động cơ', checked: false },
+      { label: 'Dầu phanh', checked: false },
       { label: 'Nước mát', checked: false },
     ],
   },
   {
     title: 'Thương hiệu',
     options: [
-      { label: 'LIQUI MOLY', checked: true },
+      { label: 'LIQUI MOLY', checked: false },
       { label: 'AISIN', checked: false },
       { label: 'FURIO', checked: false },
       { label: 'SELIG', checked: false },

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './CatalogNavbar.module.css';
 
 // ===== Types =====
@@ -64,7 +65,7 @@ function FilterSection({
   onFilterChange: (groupIndex: number, optionIndex: number) => void;
 }) {
   const [expanded, setExpanded] = useState(true);
-
+  
   return (
     <div className={styles.filterSection}>
       <div className={styles.filterHeader} onClick={() => setExpanded(!expanded)}>
@@ -102,13 +103,22 @@ export default function CatalogNavbar({
 }: Props) {
   const [keyword, setKeyword] = useState('');
   const [vinMode, setVinMode] = useState(false);
+  const navigate = useNavigate();
+
 
   // Vehicle selects
   const vehicleFields = ['Hãng xe', 'Model', 'Năm', 'Động cơ', 'Chasis', 'Nước sản xuất'];
 
   const handleSearch = () => {
-    onSearch(keyword);
-  };
+  const trimmed = keyword.trim();
+  if (!trimmed) return;
+  if (searchType === 'parts') {
+    navigate(`/catalog?code=${encodeURIComponent(trimmed)}`);
+  } else if (vinMode) {
+    navigate(`/catalog?vin=${encodeURIComponent(trimmed)}`);
+  }
+  onSearch(trimmed);
+};
 
   return (
     <div className={styles.navbar}>

@@ -116,7 +116,7 @@ export default function CartPage({ showDealAndGift = false }: CartPageProps) {
           <div style={{ textAlign: 'center', padding: '64px 0', color: '#888' }}>
             <p style={{ fontSize: 18, marginBottom: 16 }}>Giỏ hàng của bạn đang trống</p>
             <button
-              onClick={() => navigate('/product/5')}
+              onClick={() => navigate('/catalog')}
               style={{ padding: '10px 24px', background: '#696cff', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 15 }}
             >
               Tiếp tục mua sắm

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './SearchBox.module.css';
 
 type SearchMode = 'part' | 'vehicle';
@@ -21,6 +22,7 @@ const SearchIcon = () => (
 );
 
 export default function SearchBox({ onSearch }: SearchBoxProps) {
+  const navigate = useNavigate();
   const [mode, setMode] = useState<SearchMode>('part');
   const [vinMode, setVinMode] = useState(false);
   const [partCode, setPartCode] = useState('');
@@ -28,9 +30,21 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
   const [vehicle, setVehicle] = useState({ brand: '', model: '', year: '', engine: '', chassis: '', origin: '' });
 
   const handleSearch = () => {
-    if (mode === 'part') onSearch?.({ mode, partCode });
-    else if (vinMode) onSearch?.({ mode, vin });
-    else onSearch?.({ mode, ...vehicle });
+    if (mode === 'part') {
+      const trimmed = partCode.trim();
+      if (!trimmed) return;
+      // Navigate sang catalog với param code
+      navigate(`/catalog?code=${encodeURIComponent(trimmed)}`);
+      onSearch?.({ mode, partCode: trimmed });
+    } else if (vinMode) {
+      onSearch?.({ mode, vin });
+    } else {
+      onSearch?.({ mode, ...vehicle });
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') handleSearch();
   };
 
   return (
@@ -64,6 +78,7 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
                 placeholder="Nhập mã phụ tùng"
                 value={partCode}
                 onChange={e => setPartCode(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               <span className={styles.inputIcon}><SearchIcon /></span>
             </div>
