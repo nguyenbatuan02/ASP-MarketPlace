@@ -5,17 +5,18 @@ import ProductItem from '../components/ProductItem/ProductItem';
 import { VehicleListInline } from '../components/VehicleList/VehicleList';
 import VehicleListModal from '../components/VehicleList/VehicleList';
 import { productService, type OdooProduct } from '../../services/productService';
+import { fleetService, type FleetVehicle } from '../../services/fleetService';
 import { useUiStore } from '../../stores/uiStore';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { CATALOG_TEXT, MOCK_FILTERS, MOCK_VEHICLES } from './constants';
+import { CATALOG_TEXT, MOCK_FILTERS } from './constants';
+import type { VehicleItemData } from '../components/VehicleItem/VehicleItem';
 import styles from './CatalogPage.module.css';
-
 
 const ITEMS_PER_PAGE = 12;
 
 const odooImageUrl = (id: number) => `/web/image/product.template/${id}/image_1920`;
-const formatPrice = (n: number) => n.toLocaleString('vi-VN') + 'đ';
+const formatPrice   = (n: number) => n.toLocaleString('vi-VN') + 'đ';
 
 const toProductItemData = (p: OdooProduct) => ({
   productId: p.id,
@@ -29,7 +30,18 @@ const toProductItemData = (p: OdooProduct) => ({
   priceRange: formatPrice(p.list_price),
 });
 
-// Skeleton card
+const toVehicleItemData = (v: FleetVehicle): VehicleItemData => ({
+  title: v.name,
+  subtitle: v.model_id ? v.model_id[1] : '',
+  specs: [
+    v.model_year  ? `Năm ${v.model_year}` : '',
+    v.fuel_type   ? `Nhiên liệu: ${v.fuel_type}` : '',
+    v.power       ? `${v.power} CV` : '',
+    v.license_plate ? `Biển số: ${v.license_plate}` : '',
+  ].filter(Boolean).join(' · '),
+  image: '/images/vehicle-placeholder.png',
+});
+
 function ProductSkeleton() {
   return (
     <div style={{ background: '#fff', borderRadius: 10, padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -44,26 +56,36 @@ function ProductSkeleton() {
 export default function CatalogPage() {
   const [searchParams] = useSearchParams();
   const categoryId = searchParams.get('category') ? Number(searchParams.get('category')) : undefined;
-  const brandId = searchParams.get('brand') ? Number(searchParams.get('brand')) : undefined;
+  const brandId    = searchParams.get('brand')    ? Number(searchParams.get('brand'))    : undefined;
   const codeQuery  = searchParams.get('code')     ?? undefined;
+
+  // Params từ SearchBox homepage
+  const vinParam     = searchParams.get('vin')     ?? undefined;
+  const brandIdParam = searchParams.get('brandId') ? Number(searchParams.get('brandId')) : undefined;
+  const modelIdParam = searchParams.get('modelId') ? Number(searchParams.get('modelId')) : undefined;
+  const yearParam    = searchParams.get('year')    ? Number(searchParams.get('year'))    : undefined;
 
   const showToast = useUiStore(s => s.showToast);
 
   const [searchType, setSearchType] = useState<'parts' | 'vehicle'>('parts');
-  const [filters, setFilters] = useState(MOCK_FILTERS);
+  const [filters, setFilters]       = useState(MOCK_FILTERS);
   const [vehicleModalOpen, setVehicleModalOpen] = useState(false);
-  const [selectedVehicle, setSelectedVehicle] = useState(0);
+  const [selectedVehicle, setSelectedVehicle]   = useState(0);
 
   // Products state
   const [products, setProducts] = useState<OdooProduct[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
+  const [loading,  setLoading]  = useState(true);
+  const [total,    setTotal]    = useState(0);
+  const [page,     setPage]     = useState(1);
 
-  // Fetch products — chưa có search, load tất cả có phân trang
+  // Vehicle search state
+  const [vehicles,        setVehicles]        = useState<FleetVehicle[]>([]);
+  const [vehicleLoading,  setVehicleLoading]  = useState(false);
+  const [vehicleSearched, setVehicleSearched] = useState(false); 
+
   useEffect(() => {
     let cancelled = false;
-    const fetch = async () => {
+    const load = async () => {
       setLoading(true);
       try {
         const [data, count] = await Promise.all([
@@ -73,43 +95,86 @@ export default function CatalogPage() {
               ? productService.getProductsByBrand(brandId, ITEMS_PER_PAGE, (page - 1) * ITEMS_PER_PAGE)
               : productService.getProducts({ limit: ITEMS_PER_PAGE, offset: (page - 1) * ITEMS_PER_PAGE, categoryId }),
           codeQuery
-            ? Promise.resolve(0)   
+            ? Promise.resolve(0)
             : brandId
               ? productService.countProducts({ brandId })
               : productService.countProducts({ categoryId }),
         ]);
-        if (!cancelled) { setProducts(data);   setTotal(codeQuery ? data.length : count); }
+        if (!cancelled) { setProducts(data); setTotal(codeQuery ? data.length : count); }
       } catch {
         if (!cancelled) showToast('Không thể tải danh sách sản phẩm', 'error');
       } finally {
         if (!cancelled) setLoading(false);
       }
     };
-    fetch();
+    load();
     return () => { cancelled = true; };
   }, [page, categoryId, brandId, codeQuery]);
 
+  useEffect(() => {
+    if (!vinParam && !brandIdParam && !modelIdParam && !yearParam) return;
+    setSearchType('vehicle');
+    handleVehicleFilter({
+      vin:     vinParam,
+      brandId: brandIdParam,
+      modelId: modelIdParam,
+      year:    yearParam,
+    });
+  }, [vinParam, brandIdParam, modelIdParam, yearParam]);
+
+  const handleVehicleFilter = async (opts: {
+    vin?: string; brandId?: number; modelId?: number; year?: number;
+  }) => {
+    setVehicleLoading(true);
+    setVehicleSearched(true);
+    setSelectedVehicle(0);
+    try {
+      const results = opts.vin
+        ? await fleetService.searchByVin(opts.vin)
+        : await fleetService.searchByFilter({ brandId: opts.brandId, modelId: opts.modelId, year: opts.year });
+      setVehicles(results);
+
+      
+      if (results.length > 0) {
+        setLoading(true);
+        try {
+          const [data, count] = await Promise.all([
+            productService.getProducts({ limit: ITEMS_PER_PAGE, offset: 0 }),
+            productService.countProducts({}),
+          ]);
+          setProducts(data);
+          setTotal(count);
+          setPage(1);
+        } finally {
+          setLoading(false);
+        }
+      }
+    } catch {
+      showToast('Không thể tìm kiếm xe', 'error');
+    } finally {
+      setVehicleLoading(false);
+    }
+  };
+
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
-  // Chia đôi: nửa đầu = kết quả, nửa sau = phụ tùng thay thế
-  const mid = Math.ceil(products.length / 2);
-  const searchResults = products.slice(0, mid);
+  const mid             = Math.ceil(products.length / 2);
+  const searchResults   = products.slice(0, mid);
   const replacementParts = products.slice(mid);
+
+  const vehicleItems = vehicles.map(toVehicleItemData);
 
   const handleFilterChange = (gi: number, oi: number) => {
     const updated = [...filters];
     updated[gi] = {
       ...updated[gi],
-      options: updated[gi].options.map((opt, i) =>
-        i === oi ? { ...opt, checked: !opt.checked } : opt
-      ),
+      options: updated[gi].options.map((opt, i) => i === oi ? { ...opt, checked: !opt.checked } : opt),
     };
     setFilters(updated);
   };
 
-  const handleClearFilters = () => {
+  const handleClearFilters = () =>
     setFilters(filters.map(g => ({ ...g, options: g.options.map(o => ({ ...o, checked: false })) })));
-  };
 
   return (
     <div className={styles.page}>
@@ -120,27 +185,29 @@ export default function CatalogPage() {
       </div>
 
       <div className={styles.container}>
-        {/* Navbar */}
         <div className={styles.navCol}>
           <CatalogNavbar
             searchType={searchType}
             onSearchTypeChange={setSearchType}
             onSearch={kw => console.log('search:', kw)}
+            onVehicleFilter={handleVehicleFilter}
             filters={filters}
             onFilterChange={handleFilterChange}
             onClearFilters={handleClearFilters}
           />
         </div>
 
-        {/* Main content */}
         <div className={styles.mainCol}>
           {searchType === 'parts' ? (
             <>
-              {/* Danh sách sản phẩm */}
               <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>
                   {CATALOG_TEXT.searchResult}
-                  {!loading && <span style={{ fontWeight: 400, fontSize: 14, color: '#637381', marginLeft: 8 }}>({total} sản phẩm)</span>}
+                  {!loading && (
+                    <span style={{ fontWeight: 400, fontSize: 14, color: '#637381', marginLeft: 8 }}>
+                      ({total} sản phẩm)
+                    </span>
+                  )}
                 </h2>
               </div>
 
@@ -159,7 +226,6 @@ export default function CatalogPage() {
                 }
               </div>
 
-              {/* Danh sách phụ tùng thay thế */}
               {!loading && replacementParts.length > 0 && (
                 <>
                   <div className={styles.sectionHeader}>
@@ -175,68 +241,81 @@ export default function CatalogPage() {
                 </>
               )}
 
-              {/* Phân trang */}
               {!loading && totalPages > 1 && (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 8, padding: '24px 0' }}>
-                  <button
-                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                    disabled={page === 1}
-                    style={pageBtnStyle(page === 1)}
-                  >‹</button>
+                  <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
+                    style={pageBtnStyle(page === 1)}>‹</button>
 
                   {Array.from({ length: totalPages }, (_, i) => i + 1)
                     .filter(n => n === 1 || n === totalPages || Math.abs(n - page) <= 1)
                     .reduce<(number | '...')[]>((acc, n, i, arr) => {
                       if (i > 0 && n - (arr[i - 1] as number) > 1) acc.push('...');
-                      acc.push(n);
-                      return acc;
+                      acc.push(n); return acc;
                     }, [])
                     .map((n, i) => n === '...'
                       ? <span key={`e-${i}`} style={{ padding: '0 4px', color: '#637381' }}>...</span>
                       : <button key={n} onClick={() => setPage(n as number)} style={pageBtnStyle(false, page === n)}>{n}</button>
-                    )
-                  }
+                    )}
 
-                  <button
-                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                    disabled={page === totalPages}
-                    style={pageBtnStyle(page === totalPages)}
-                  >›</button>
+                  <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
+                    style={pageBtnStyle(page === totalPages)}>›</button>
                 </div>
               )}
             </>
+
           ) : (
+            /* ── Vehicle tab ── */
             <>
-              {/* Tab vehicle — giữ nguyên mock */}
               <div className={styles.sectionHeader}>
-                <h2 className={styles.sectionTitle}>{CATALOG_TEXT.vehicleFound}</h2>
-                <button className={styles.viewMoreBtn} onClick={() => setVehicleModalOpen(true)}>
-                  Xem thêm (18 xe)
-                </button>
-              </div>
-              <div className={styles.vehicleListWrap}>
-                <VehicleListInline
-                  vehicles={MOCK_VEHICLES}
-                  selectedIndex={selectedVehicle}
-                  onSelect={setSelectedVehicle}
-                />
+                <h2 className={styles.sectionTitle}>
+                  {CATALOG_TEXT.vehicleFound}
+                  {vehicleSearched && !vehicleLoading && (
+                    <span style={{ fontWeight: 400, fontSize: 14, color: '#637381', marginLeft: 8 }}>
+                      ({vehicles.length} xe)
+                    </span>
+                  )}
+                </h2>
+                {vehicleItems.length > 3 && (
+                  <button className={styles.viewMoreBtn} onClick={() => setVehicleModalOpen(true)}>
+                    Xem thêm ({vehicles.length} xe)
+                  </button>
+                )}
               </div>
 
-              <div className={styles.sectionHeader}>
-                <h2 className={styles.sectionTitle}>{CATALOG_TEXT.partsList}</h2>
+              <div className={styles.vehicleListWrap}>
+                {vehicleLoading ? (
+                  <p style={{ color: '#888', padding: '16px 0' }}>Đang tìm kiếm xe...</p>
+                ) : vehicleSearched && vehicleItems.length === 0 ? (
+                  <p style={{ color: '#888', padding: '16px 0' }}>Không tìm thấy xe phù hợp.</p>
+                ) : (
+                  <VehicleListInline
+                    vehicles={vehicleItems.length > 0 ? vehicleItems : []}
+                    selectedIndex={selectedVehicle}
+                    onSelect={setSelectedVehicle}
+                  />
+                )}
               </div>
-              <div className={styles.productGrid}>
-                {loading
-                  ? Array.from({ length: 6 }).map((_, i) => (
-                      <div key={i} className={styles.productGridItem}><ProductSkeleton /></div>
-                    ))
-                  : products.map(p => (
-                      <div key={p.id} className={styles.productGridItem}>
-                        <ProductItem data={toProductItemData(p)} />
-                      </div>
-                    ))
-                }
-              </div>
+
+              {/* Parts list — chỉ hiện khi đã có xe */}
+              {vehicleSearched && vehicleItems.length > 0 && (
+                <>
+                  <div className={styles.sectionHeader}>
+                    <h2 className={styles.sectionTitle}>{CATALOG_TEXT.partsList}</h2>
+                  </div>
+                  <div className={styles.productGrid}>
+                    {loading
+                      ? Array.from({ length: 6 }).map((_, i) => (
+                          <div key={i} className={styles.productGridItem}><ProductSkeleton /></div>
+                        ))
+                      : products.map(p => (
+                          <div key={p.id} className={styles.productGridItem}>
+                            <ProductItem data={toProductItemData(p)} />
+                          </div>
+                        ))
+                    }
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>
@@ -246,15 +325,14 @@ export default function CatalogPage() {
 
       <VehicleListModal
         open={vehicleModalOpen}
-        vehicles={MOCK_VEHICLES}
+        vehicles={vehicleItems}
         onClose={() => setVehicleModalOpen(false)}
-        onSave={index => { setSelectedVehicle(index); setVehicleModalOpen(false); }}
+        onSave={idx => { setSelectedVehicle(idx); setVehicleModalOpen(false); }}
       />
     </div>
   );
 }
 
-// Pagination button style helper
 const pageBtnStyle = (disabled: boolean, active = false): React.CSSProperties => ({
   width: 36, height: 36,
   border: active ? '2px solid #696CFF' : '1px solid rgba(0,0,0,0.15)',

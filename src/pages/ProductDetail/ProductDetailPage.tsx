@@ -33,7 +33,7 @@ const ChevronRightIcon = () => (
 );
 
 const formatPrice = (price: number) =>
-  price.toLocaleString('vi-VN') + 'đ';
+  price.toLocaleString('vi-VN') + 'đ'
 
 const odooImageUrl = (id: number) =>
   `/web/image/product.template/${id}/image_1920`;

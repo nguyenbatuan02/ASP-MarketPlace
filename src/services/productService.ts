@@ -51,12 +51,18 @@ const PRODUCT_FIELDS = [
 
 export const productService = {
 
-// Tìm kiếm theo global code (normalize: bỏ -, space, lowercase)
-  async searchByCode(rawCode: string): Promise<OdooProduct[]> {
-    const normalized = rawCode.replace(/[\s\-]/g, '').toLowerCase();
-    if (!normalized) return [];
+// Tìm kiếm theo global code hoặc tên sản phẩm
+  async searchByCode(rawQuery: string): Promise<OdooProduct[]> {
+    const trimmed = rawQuery.trim();
+    if (!trimmed) return [];
+    const normalized = trimmed.replace(/[\s\-]/g, '').toLowerCase();
+
+    // Dùng OR: khớp tên sản phẩm HOẶC global_code_normalized
     return callKw<OdooProduct[]>('product.template', 'search_read', [
-      [['global_code_normalized', 'ilike', normalized]],
+      ['|',
+        ['name', 'ilike', trimmed],
+        ['global_code_normalized', 'ilike', normalized],
+      ],
     ], {
       fields: [...PRODUCT_FIELDS, 'global_code'],
       limit: 40,

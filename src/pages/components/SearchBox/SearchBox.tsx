@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fleetService, type FleetBrand, type FleetModel } from '../../../services/fleetService';
 import styles from './SearchBox.module.css';
 
 type SearchMode = 'part' | 'vehicle';
@@ -13,7 +14,6 @@ const ChevronDownIcon = () => (
     <path d="M7 9.5l5 5 5-5" stroke="rgba(0,0,0,0.56)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-
 const SearchIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
     <circle cx="11" cy="11" r="7" stroke="rgba(0,0,0,0.56)" strokeWidth="1.5" />
@@ -23,23 +23,63 @@ const SearchIcon = () => (
 
 export default function SearchBox({ onSearch }: SearchBoxProps) {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<SearchMode>('part');
+  const [mode, setMode]       = useState<SearchMode>('part');
   const [vinMode, setVinMode] = useState(false);
   const [partCode, setPartCode] = useState('');
-  const [vin, setVin] = useState('');
-  const [vehicle, setVehicle] = useState({ brand: '', model: '', year: '', engine: '', chassis: '', origin: '' });
+  const [vin, setVin]           = useState('');
+
+  // Odoo data
+  const [brands, setBrands]           = useState<FleetBrand[]>([]);
+  const [models, setModels]           = useState<FleetModel[]>([]);
+  const [years,  setYears]            = useState<number[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState<number | ''>('');
+  const [selectedModel, setSelectedModel] = useState<number | ''>('');
+  const [selectedYear,  setSelectedYear]  = useState<number | ''>('');
+  const [loadingBrands, setLoadingBrands] = useState(false);
+  const [loadingModels, setLoadingModels] = useState(false);
+
+  // Load brands + years khi chuyển sang vehicle mode
+  useEffect(() => {
+    if (mode !== 'vehicle' || vinMode) return;
+    setLoadingBrands(true);
+    Promise.all([fleetService.getBrands(), fleetService.getYears()])
+      .then(([b, y]) => { setBrands(b); setYears(y); })
+      .finally(() => setLoadingBrands(false));
+  }, [mode, vinMode]);
+
+  // Cascade: chọn brand → load models
+  useEffect(() => {
+    setSelectedModel('');
+    setModels([]);
+    if (!selectedBrand) return;
+    setLoadingModels(true);
+    fleetService.getModels(selectedBrand as number)
+      .then(setModels)
+      .finally(() => setLoadingModels(false));
+  }, [selectedBrand]);
 
   const handleSearch = () => {
     if (mode === 'part') {
       const trimmed = partCode.trim();
       if (!trimmed) return;
-      // Navigate sang catalog với param code
       navigate(`/catalog?code=${encodeURIComponent(trimmed)}`);
       onSearch?.({ mode, partCode: trimmed });
     } else if (vinMode) {
-      onSearch?.({ mode, vin });
+      const trimmed = vin.trim();
+      if (!trimmed) return;
+      navigate(`/catalog?vin=${encodeURIComponent(trimmed)}`);
+      onSearch?.({ mode, vin: trimmed });
     } else {
-      onSearch?.({ mode, ...vehicle });
+      const params: Record<string, string> = { mode };
+      if (selectedBrand) params.brandId = String(selectedBrand);
+      if (selectedModel) params.modelId = String(selectedModel);
+      if (selectedYear)  params.year    = String(selectedYear);
+      // Build query string cho catalog
+      const qs = new URLSearchParams(
+        Object.fromEntries(Object.entries(params).filter(([k]) => k !== 'mode'))
+      ).toString();
+      navigate(`/catalog?${qs}`);
+      onSearch?.(params);
     }
   };
 
@@ -55,11 +95,8 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
           <span className={styles.label}>Tìm kiếm theo</span>
         </div>
         <div className={styles.selectWrap}>
-          <select
-            className={styles.select}
-            value={mode}
-            onChange={e => setMode(e.target.value as SearchMode)}
-          >
+          <select className={styles.select} value={mode}
+            onChange={e => setMode(e.target.value as SearchMode)}>
             <option value="part">Phụ tùng</option>
             <option value="vehicle">Xe</option>
           </select>
@@ -70,16 +107,11 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
       {/* Frame 2 */}
       <div className={styles.frame2}>
         {mode === 'part' ? (
-          /* ── Part search ── */
           <>
             <div className={styles.inputWrap}>
-              <input
-                className={styles.input}
-                placeholder="Nhập mã phụ tùng"
-                value={partCode}
-                onChange={e => setPartCode(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
+              <input className={styles.input} placeholder="Nhập mã phụ tùng"
+                value={partCode} onChange={e => setPartCode(e.target.value)}
+                onKeyDown={handleKeyDown} />
               <span className={styles.inputIcon}><SearchIcon /></span>
             </div>
             <div className={styles.btnRow}>
@@ -87,15 +119,11 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
             </div>
           </>
         ) : (
-          /* ── Vehicle search ── */
           <>
             {/* Toggle VIN */}
             <div className={styles.toggleRow}>
-              <button
-                className={`${styles.toggle} ${vinMode ? styles.toggleOn : ''}`}
-                onClick={() => setVinMode(!vinMode)}
-                aria-label="Toggle VIN search"
-              >
+              <button className={`${styles.toggle} ${vinMode ? styles.toggleOn : ''}`}
+                onClick={() => setVinMode(!vinMode)} aria-label="Toggle VIN search">
                 <span className={styles.toggleTrack} />
                 <span className={styles.toggleKnob} />
               </button>
@@ -103,42 +131,55 @@ export default function SearchBox({ onSearch }: SearchBoxProps) {
             </div>
 
             {vinMode ? (
-              /* VIN input */
               <div className={styles.inputWrap}>
-                <input
-                  className={styles.input}
-                  placeholder="Nhập số VIN"
-                  value={vin}
-                  onChange={e => setVin(e.target.value)}
-                />
+                <input className={styles.input} placeholder="Nhập số VIN"
+                  value={vin} onChange={e => setVin(e.target.value)}
+                  onKeyDown={handleKeyDown} />
                 <span className={styles.inputIcon}><SearchIcon /></span>
               </div>
             ) : (
-              /* 6 selects */
               <div className={styles.selectGrid}>
+                {/* Row 1: Hãng, Model, Năm */}
                 <div className={styles.selectRow}>
-                  {(['brand', 'model', 'year'] as const).map((f, i) => (
-                    <div key={f} className={styles.selectWrapFull}>
-                      <select
-                        className={styles.select}
-                        value={vehicle[f]}
-                        onChange={e => setVehicle({ ...vehicle, [f]: e.target.value })}
-                      >
-                        <option value="">{['Hãng xe', 'Model', 'Năm'][i]}</option>
-                      </select>
-                      <span className={styles.selectIcon}><ChevronDownIcon /></span>
-                    </div>
-                  ))}
+                  {/* Hãng xe */}
+                  <div className={styles.selectWrapFull}>
+                    <select className={styles.select} value={selectedBrand}
+                      disabled={loadingBrands}
+                      onChange={e => setSelectedBrand(e.target.value ? Number(e.target.value) : '')}>
+                      <option value="">{loadingBrands ? 'Đang tải...' : 'Hãng xe'}</option>
+                      {brands.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                    </select>
+                    <span className={styles.selectIcon}><ChevronDownIcon /></span>
+                  </div>
+
+                  {/* Model */}
+                  <div className={styles.selectWrapFull}>
+                    <select className={styles.select} value={selectedModel}
+                      disabled={!selectedBrand || loadingModels}
+                      onChange={e => setSelectedModel(e.target.value ? Number(e.target.value) : '')}>
+                      <option value="">{loadingModels ? 'Đang tải...' : 'Model'}</option>
+                      {models.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+                    </select>
+                    <span className={styles.selectIcon}><ChevronDownIcon /></span>
+                  </div>
+
+                  {/* Năm */}
+                  <div className={styles.selectWrapFull}>
+                    <select className={styles.select} value={selectedYear}
+                      onChange={e => setSelectedYear(e.target.value ? Number(e.target.value) : '')}>
+                      <option value="">Năm</option>
+                      {years.map(y => <option key={y} value={y}>{y}</option>)}
+                    </select>
+                    <span className={styles.selectIcon}><ChevronDownIcon /></span>
+                  </div>
                 </div>
+
+                {/* Row 2: Động cơ, Chasis, Nước SX — disabled, chưa có data */}
                 <div className={styles.selectRow}>
-                  {(['engine', 'chassis', 'origin'] as const).map((f, i) => (
+                  {(['Động cơ', 'Chasis', 'Nước sản xuất'] as const).map(f => (
                     <div key={f} className={styles.selectWrapFull}>
-                      <select
-                        className={styles.select}
-                        value={vehicle[f]}
-                        onChange={e => setVehicle({ ...vehicle, [f]: e.target.value })}
-                      >
-                        <option value="">{['Động cơ', 'Chasis', 'Nước sản xuất'][i]}</option>
+                      <select className={styles.select} defaultValue="" disabled>
+                        <option value="" disabled>{f}</option>
                       </select>
                       <span className={styles.selectIcon}><ChevronDownIcon /></span>
                     </div>
