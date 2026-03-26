@@ -11,7 +11,7 @@ export interface OdooProduct {
   image_1920: string | false;   // base64
   qty_available: number;        // tồn kho
   type: 'consu' | 'service' | 'product';
-  website_published: boolean;
+  // is_published: boolean;
   slug: string | false;
   currency_id: [number, string];
   taxes_id: number[];
@@ -45,7 +45,7 @@ export interface ProductCategory {
 
 const PRODUCT_FIELDS = [
   'id', 'name', 'description_sale', 'list_price', 'categ_id',
-  'image_1920', 'qty_available', 'type', 'website_published',
+  'image_1920', 'qty_available', 'type', 
   'currency_id', 'taxes_id', 'standard_price', 'global_code'
 ];
 
@@ -55,13 +55,11 @@ export const productService = {
   async searchByCode(rawQuery: string): Promise<OdooProduct[]> {
     const trimmed = rawQuery.trim();
     if (!trimmed) return [];
-    const normalized = trimmed.replace(/[\s\-]/g, '').toLowerCase();
 
-    // Dùng OR: khớp tên sản phẩm HOẶC global_code_normalized
     return callKw<OdooProduct[]>('product.template', 'search_read', [
       ['|',
         ['name', 'ilike', trimmed],
-        ['global_code_normalized', 'ilike', normalized],
+        ['global_code', 'ilike', trimmed], 
       ],
     ], {
       fields: [...PRODUCT_FIELDS, 'global_code'],
@@ -81,7 +79,7 @@ export const productService = {
   // Lấy sản phẩm theo brand
   async getProductsByBrand(brandId: number, limit = 20, offset = 0): Promise<OdooProduct[]> {
     return callKw<OdooProduct[]>('product.template', 'search_read', [
-      [['brand_id', '=', brandId], ['website_published', '=', true]],
+      [['brand_id', '=', brandId], ],
     ], { fields: PRODUCT_FIELDS, limit, offset, order: 'name asc' });
   },
 
@@ -95,8 +93,7 @@ export const productService = {
   } = {}): Promise<OdooProduct[]> {
     const { search, categoryId, limit = 20, offset = 0, onlyPublished = true } = opts;
 
-    const domain: unknown[] = [];
-    if (onlyPublished) domain.push(['website_published', '=', true]);
+    const domain: unknown[] = [['active', '=', true]];
     if (categoryId) domain.push(['categ_id', '=', categoryId]);
     if (search) domain.push(['name', 'ilike', search]);
 
@@ -121,7 +118,7 @@ export const productService = {
   // Đếm tổng số sản phẩm (cho phân trang)
   async countProducts(opts: { search?: string; categoryId?: number; brandId?: number } = {}): Promise<number> {
     const { search, categoryId, brandId } = opts;
-    const domain: unknown[] = [['website_published', '=', true]];
+    const domain: unknown[] = [['active', '=', true]];
     if (categoryId) domain.push(['categ_id', '=', categoryId]);
     if (brandId) domain.push(['brand_id', '=', brandId]);
     if (search) domain.push(['name', 'ilike', search]);
@@ -131,8 +128,8 @@ export const productService = {
 
   // Lấy danh mục sản phẩm
   async getCategories(): Promise<ProductCategory[]> {
-    return callKw<ProductCategory[]>('product.category', 'search_read', [[]], {
-      fields: ['id', 'name', 'parent_id', 'image_128'],
+  return callKw<ProductCategory[]>('product.category', 'search_read', [[]], {
+      fields: ['id', 'name', 'parent_id'],  
       order: 'name asc',
     });
   },
@@ -140,7 +137,7 @@ export const productService = {
   // Lấy sản phẩm nổi bật (Home page) - lấy 8 sản phẩm mới nhất
   async getFeaturedProducts(limit = 8): Promise<OdooProduct[]> {
     return callKw<OdooProduct[]>('product.template', 'search_read', [
-      [['website_published', '=', true]],
+      [['active', '=', true]],
     ], {
       fields: PRODUCT_FIELDS,
       limit,

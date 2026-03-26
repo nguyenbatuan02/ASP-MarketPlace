@@ -30,10 +30,13 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: async () => {
-        await authService.logout();
-        set({ user: null, isLoggedIn: false });
-        // clear cart khi logout
-        useCartStore.getState().clearCart();
+        try {
+          await authService.logout(); 
+        } catch {
+        } finally {
+          set({ user: null, isLoggedIn: false });
+          useCartStore.getState().clearCart();
+        }
       },
 
       restoreSession: async () => {

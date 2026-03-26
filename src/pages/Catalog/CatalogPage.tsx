@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import CatalogNavbar from '../components/CatalogNavbar/CatalogNavbar';
 import ProductItem from '../components/ProductItem/ProductItem';
 import { VehicleListInline } from '../components/VehicleList/VehicleList';
@@ -65,6 +65,7 @@ export default function CatalogPage() {
   const modelIdParam = searchParams.get('modelId') ? Number(searchParams.get('modelId')) : undefined;
   const yearParam    = searchParams.get('year')    ? Number(searchParams.get('year'))    : undefined;
 
+  const navigate  = useNavigate();
   const showToast = useUiStore(s => s.showToast);
 
   const [searchType, setSearchType] = useState<'parts' | 'vehicle'>('parts');
@@ -114,7 +115,7 @@ export default function CatalogPage() {
   useEffect(() => {
     if (!vinParam && !brandIdParam && !modelIdParam && !yearParam) return;
     setSearchType('vehicle');
-    handleVehicleFilter({
+    doVehicleSearch({
       vin:     vinParam,
       brandId: brandIdParam,
       modelId: modelIdParam,
@@ -122,7 +123,19 @@ export default function CatalogPage() {
     });
   }, [vinParam, brandIdParam, modelIdParam, yearParam]);
 
-  const handleVehicleFilter = async (opts: {
+ 
+  const handleVehicleFilter = (opts: {
+    vin?: string; brandId?: number; modelId?: number; year?: number;
+  }) => {
+    const qs = new URLSearchParams();
+    if (opts.vin)     qs.set('vin',     opts.vin);
+    if (opts.brandId) qs.set('brandId', String(opts.brandId));
+    if (opts.modelId) qs.set('modelId', String(opts.modelId));
+    if (opts.year)    qs.set('year',    String(opts.year));
+    navigate(`/catalog?${qs.toString()}`);
+  };
+
+  const doVehicleSearch = async (opts: {
     vin?: string; brandId?: number; modelId?: number; year?: number;
   }) => {
     setVehicleLoading(true);
@@ -132,10 +145,9 @@ export default function CatalogPage() {
       const results = opts.vin
         ? await fleetService.searchByVin(opts.vin)
         : await fleetService.searchByFilter({ brandId: opts.brandId, modelId: opts.modelId, year: opts.year });
-      setVehicles(results);
-
-      
-      if (results.length > 0) {
+      const limited = results.slice(0, 2);
+      setVehicles(results);       
+      if (limited.length > 0) {
         setLoading(true);
         try {
           const [data, count] = await Promise.all([
@@ -267,19 +279,16 @@ export default function CatalogPage() {
             /* ── Vehicle tab ── */
             <>
               <div className={styles.sectionHeader}>
-                <h2 className={styles.sectionTitle}>
-                  {CATALOG_TEXT.vehicleFound}
-                  {vehicleSearched && !vehicleLoading && (
-                    <span style={{ fontWeight: 400, fontSize: 14, color: '#637381', marginLeft: 8 }}>
-                      ({vehicles.length} xe)
-                    </span>
-                  )}
-                </h2>
-                {vehicleItems.length > 3 && (
-                  <button className={styles.viewMoreBtn} onClick={() => setVehicleModalOpen(true)}>
-                    Xem thêm ({vehicles.length} xe)
-                  </button>
-                )}
+                <h2 className={styles.sectionTitle}>{CATALOG_TEXT.vehicleFound}</h2>
+                <button
+                  className={styles.viewMoreBtn}
+                  onClick={() => vehicles.length > 2 ? setVehicleModalOpen(true) : undefined}
+                  style={{ cursor: vehicles.length > 2 ? 'pointer' : 'default' }}
+                >
+                  {vehicles.length > 2
+                    ? `Xem thêm (${vehicles.length} xe)`
+                    : `(${vehicles.length} xe)`}
+                </button>
               </div>
 
               <div className={styles.vehicleListWrap}>
@@ -289,7 +298,7 @@ export default function CatalogPage() {
                   <p style={{ color: '#888', padding: '16px 0' }}>Không tìm thấy xe phù hợp.</p>
                 ) : (
                   <VehicleListInline
-                    vehicles={vehicleItems.length > 0 ? vehicleItems : []}
+                    vehicles={vehicleItems.slice(0, 2)}
                     selectedIndex={selectedVehicle}
                     onSelect={setSelectedVehicle}
                   />

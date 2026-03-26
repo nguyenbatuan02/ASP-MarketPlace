@@ -31,12 +31,12 @@ export const fleetService = {
     });
   },
 
-  // Lấy model theo hãng (hoặc tất cả nếu không truyền brandId)
   async getModels(brandId?: number): Promise<FleetModel[]> {
     const domain = brandId ? [['brand_id', '=', brandId]] : [];
     return callKw<FleetModel[]>('fleet.vehicle.model', 'search_read', [domain], {
       fields: ['id', 'name', 'brand_id'],
       order: 'name asc',
+      limit: 0
     });
   },
 
@@ -63,7 +63,6 @@ export const fleetService = {
       [['vin_sn', 'ilike', trimmed]],
     ], {
       fields: ['id', 'name', 'vin_sn', 'model_id', 'model_year', 'license_plate', 'power', 'fuel_type'],
-      limit: 10,
     });
   },
 
@@ -93,7 +92,6 @@ export const fleetService = {
 
     return callKw<FleetVehicle[]>('fleet.vehicle', 'search_read', [domain], {
       fields: ['id', 'name', 'vin_sn', 'model_id', 'model_year', 'license_plate', 'power', 'fuel_type'],
-      limit: 50,
       order: 'model_year desc',
     });
   },

@@ -19,7 +19,6 @@ const ChevronRightIcon = () => (
   </svg>
 );
 
-// ── Fallback icon khi chưa có ảnh ─────────────────────────
 const CategoryIcon = ({ color = '#7F00FF' }: { color?: string }) => (
   <svg width="34" height="40" viewBox="0 0 34 40" fill="none">
     <rect width="34" height="40" rx="4" fill={color} fillOpacity="0.15" />
@@ -27,7 +26,6 @@ const CategoryIcon = ({ color = '#7F00FF' }: { color?: string }) => (
   </svg>
 );
 
-// ── Category card ──────────────────────────────────────────
 function CategoryCard({
   category, color, onClick,
 }: {
@@ -104,16 +102,16 @@ export default function HomePage() {
     let cancelled = false;
     const fetchAll = async () => {
       try {
-        const [cats, brnds] = await Promise.all([
+        const [catsResult, brndsResult] = await Promise.allSettled([
           productService.getCategories(),
           productService.getBrands(),
         ]);
         if (!cancelled) {
+          const cats = catsResult.status === 'fulfilled' ? catsResult.value : [];
+          const brnds = brndsResult.status === 'fulfilled' ? brndsResult.value : [];
           setCategories(cats.filter(c => c.name.toLowerCase() !== 'all' && c.name !== 'Tất cả').slice(0, 12));
           setBrands(brnds);
         }
-      } catch {
-        if (!cancelled) showToast('Không thể tải dữ liệu', 'error');
       } finally {
         if (!cancelled) setLoadingCats(false);
       }

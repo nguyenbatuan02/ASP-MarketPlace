@@ -7,6 +7,8 @@ import HomePage from './pages/Home/HomePage';
 import OrderListPage from './pages/OrderList/OrderListPage';
 import OrderDetailPage from './pages/OrderDetail/OrderDetailPage';
 import AccountPage from './pages/Account/AccountPage';
+import ChatWidget from './pages/components/ChatWidget/ChatWidget';
+
 
 export default function App() {
   const routes = useRoutes([
@@ -20,5 +22,10 @@ export default function App() {
     { path: '/orders/:id', element: <OrderDetailPage /> },
     { path: '/account', element: <AccountPage /> },
   ]);
-  return routes;
+  return (
+    <>
+      {routes}
+      <ChatWidget />   
+    </>
+  );
 }
